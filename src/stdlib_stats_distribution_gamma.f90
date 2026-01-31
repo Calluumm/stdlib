@@ -82,8 +82,10 @@ contains
         real(sp), parameter :: sq = 0.0331_sp
 
 
-        if(shape <= 0.0_sp) call error_stop("Error(gamma_dist_rvs): Gamma"  &
-            //" distribution shape parameter must be greater than zero")
+        if(shape <= 0.0_sp) then
+            res = ieee_value(1.0_sp, ieee_quiet_nan)
+            return
+        end if
 
         zz = shape
 
@@ -132,8 +134,10 @@ contains
         real(dp), parameter :: sq = 0.0331_dp
 
 
-        if(shape <= 0.0_dp) call error_stop("Error(gamma_dist_rvs): Gamma"  &
-            //" distribution shape parameter must be greater than zero")
+        if(shape <= 0.0_dp) then
+            res = ieee_value(1.0_dp, ieee_quiet_nan)
+            return
+        end if
 
         zz = shape
 
