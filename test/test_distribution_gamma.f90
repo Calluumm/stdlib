@@ -43,7 +43,7 @@ contains
 
         freq = 0
         do i = 1, num
-            j = min(array_size - 1, int(array_size * gamma_cdf(rgamma(0.0_dp, 2.0_dp, 1.5_dp), 0.0_dp, 2.0_dp, 1.5_dp)))
+            j = min(array_size - 1, int(array_size * gamma_cdf(rgamma(2.0_dp, 1.5_dp, 0.0_dp), 2.0_dp, 1.5_dp, 0.0_dp)))
             freq(j) = freq(j) + 1
         end do
 
@@ -85,10 +85,10 @@ contains
         gshape = 2.0_sp; rate = 1.0_sp; loc = 0._sp
 
         do i = 1, k
-            res(i) = rgamma(loc, gshape, rate)
+            res(i) = rgamma(gshape, rate, loc)
         end do
 
-        res(k + 1 : n) = rgamma(loc, gshape, rate, k)
+        res(k + 1 : n) = rgamma(gshape, rate, k, loc)
 
         do i = 1, n
             call check(abs(res(i) - ans(i)) < sptol,                      &
@@ -120,10 +120,10 @@ contains
         gshape = 2.0_dp; rate = 1.0_dp; loc = 0._dp
 
         do i = 1, k
-            res(i) = rgamma(loc, gshape, rate)
+            res(i) = rgamma(gshape, rate, loc)
         end do
 
-        res(k + 1 : n) = rgamma(loc, gshape, rate, k)
+        res(k + 1 : n) = rgamma(gshape, rate, k, loc)
 
         do i = 1, n
             call check(abs(res(i) - ans(i)) < dptol,                      &
@@ -156,10 +156,10 @@ contains
         gshape = (2.0_sp, 0.7_sp); rate = (0.8_sp, 1.2_sp); loc = (0._sp, 0._sp)
 
         do i = 1, k
-            res(i) = rgamma(loc, gshape, rate)
+            res(i) = rgamma(gshape, rate, loc)
         end do
 
-        res(k + 1 : n) = rgamma(loc, gshape, rate, k)
+        res(k + 1 : n) = rgamma(gshape, rate, k, loc)
 
         do i = 1, n
             call check(abs(res(i) - ans(i)) < sptol,                      &
@@ -192,10 +192,10 @@ contains
         gshape = (2.0_dp, 0.7_dp); rate = (0.8_dp, 1.2_dp); loc = (0._dp, 0._dp)
 
         do i = 1, k
-            res(i) = rgamma(loc, gshape, rate)
+            res(i) = rgamma(gshape, rate, loc)
         end do
 
-        res(k + 1 : n) = rgamma(loc, gshape, rate, k)
+        res(k + 1 : n) = rgamma(gshape, rate, k, loc)
 
         do i = 1, n
             call check(abs(res(i) - ans(i)) < dptol,                      &
@@ -232,11 +232,11 @@ contains
         call random_seed(seed, get)
         gshape = 2.0_sp; rate = 1.0_sp; loc = 0._sp
 
-        x1 = rgamma(loc, gshape, rate)
-        x2 = reshape(rgamma(loc, gshape, rate, 12), [3,4])
+        x1 = rgamma(gshape, rate, loc)
+        x2 = reshape(rgamma(gshape, rate, 12, loc), [3,4])
 
-        res(1:3) = gamma_pdf(x1, loc, gshape, rate)
-        res(4:15) = reshape(gamma_pdf(x2, loc, gshape, rate), [12])
+        res(1:3) = gamma_pdf(x1, gshape, rate, loc)
+        res(4:15) = reshape(gamma_pdf(x2, gshape, rate, loc), [12])
 
         do i = 1, 15
             call check(abs(res(i) - ans(i)) < sptol,                      &
@@ -272,11 +272,11 @@ contains
         call random_seed(seed, get)
         gshape = 2.0_dp; rate = 1.0_dp; loc = 0._dp
 
-        x1 = rgamma(loc, gshape, rate)
-        x2 = reshape(rgamma(loc, gshape, rate, 12), [3,4])
+        x1 = rgamma(gshape, rate, loc)
+        x2 = reshape(rgamma(gshape, rate, 12, loc), [3,4])
 
-        res(1:3) = gamma_pdf(x1, loc, gshape, rate)
-        res(4:15) = reshape(gamma_pdf(x2, loc, gshape, rate), [12])
+        res(1:3) = gamma_pdf(x1, gshape, rate, loc)
+        res(4:15) = reshape(gamma_pdf(x2, gshape, rate, loc), [12])
 
         do i = 1, 15
             call check(abs(res(i) - ans(i)) < dptol,                      &
@@ -312,11 +312,11 @@ contains
         call random_seed(seed, get)
         gshape = (2.0_sp, 0.7_sp); rate = (0.8_sp, 1.2_sp); loc = (0._sp, 0._sp)
 
-        x1 = rgamma(loc, gshape, rate)
-        x2 = reshape(rgamma(loc, gshape, rate, 12), [3,4])
+        x1 = rgamma(gshape, rate, loc)
+        x2 = reshape(rgamma(gshape, rate, 12, loc), [3,4])
 
-        res(1:3) = gamma_pdf(x1, loc, gshape, rate)
-        res(4:15) = reshape(gamma_pdf(x2, loc, gshape, rate), [12])
+        res(1:3) = gamma_pdf(x1, gshape, rate, loc)
+        res(4:15) = reshape(gamma_pdf(x2, gshape, rate, loc), [12])
 
         do i = 1, 15
             call check(abs(res(i) - ans(i)) < sptol,                      &
@@ -352,11 +352,11 @@ contains
         call random_seed(seed, get)
         gshape = (2.0_dp, 0.7_dp); rate = (0.8_dp, 1.2_dp); loc = (0._dp, 0._dp)
 
-        x1 = rgamma(loc, gshape, rate)
-        x2 = reshape(rgamma(loc, gshape, rate, 12), [3,4])
+        x1 = rgamma(gshape, rate, loc)
+        x2 = reshape(rgamma(gshape, rate, 12, loc), [3,4])
 
-        res(1:3) = gamma_pdf(x1, loc, gshape, rate)
-        res(4:15) = reshape(gamma_pdf(x2, loc, gshape, rate), [12])
+        res(1:3) = gamma_pdf(x1, gshape, rate, loc)
+        res(4:15) = reshape(gamma_pdf(x2, gshape, rate, loc), [12])
 
         do i = 1, 15
             call check(abs(res(i) - ans(i)) < dptol,                      &
@@ -393,11 +393,11 @@ contains
         call random_seed(seed, get)
         gshape = 2.0_sp; rate = 1.0_sp; loc = 0._sp
 
-        x1 = rgamma(loc, gshape, rate)
-        x2 = reshape(rgamma(loc, gshape, rate, 12), [3,4])
+        x1 = rgamma(gshape, rate, loc)
+        x2 = reshape(rgamma(gshape, rate, 12, loc), [3,4])
 
-        res(1:3) = gamma_cdf(x1, loc, gshape, rate)
-        res(4:15) = reshape(gamma_cdf(x2, loc, gshape, rate), [12])
+        res(1:3) = gamma_cdf(x1, gshape, rate, loc)
+        res(4:15) = reshape(gamma_cdf(x2, gshape, rate, loc), [12])
 
         do i = 1, 15
             call check(abs(res(i) - ans(i)) < sptol,                      &
@@ -433,11 +433,11 @@ contains
         call random_seed(seed, get)
         gshape = 2.0_dp; rate = 1.0_dp; loc = 0._dp
 
-        x1 = rgamma(loc, gshape, rate)
-        x2 = reshape(rgamma(loc, gshape, rate, 12), [3,4])
+        x1 = rgamma(gshape, rate, loc)
+        x2 = reshape(rgamma(gshape, rate, 12, loc), [3,4])
 
-        res(1:3) = gamma_cdf(x1, loc, gshape, rate)
-        res(4:15) = reshape(gamma_cdf(x2, loc, gshape, rate), [12])
+        res(1:3) = gamma_cdf(x1, gshape, rate, loc)
+        res(4:15) = reshape(gamma_cdf(x2, gshape, rate, loc), [12])
 
         do i = 1, 15
             call check(abs(res(i) - ans(i)) < dptol,                      &
@@ -473,11 +473,11 @@ contains
         call random_seed(seed, get)
         gshape = (2.0_sp, 0.7_sp); rate = (0.8_sp, 1.2_sp); loc = (0._sp, 0._sp)
 
-        x1 = rgamma(loc, gshape, rate)
-        x2 = reshape(rgamma(loc, gshape, rate, 12), [3,4])
+        x1 = rgamma(gshape, rate, loc)
+        x2 = reshape(rgamma(gshape, rate, 12, loc), [3,4])
 
-        res(1:3) = gamma_cdf(x1, loc, gshape, rate)
-        res(4:15) = reshape(gamma_cdf(x2, loc, gshape, rate), [12])
+        res(1:3) = gamma_cdf(x1, gshape, rate, loc)
+        res(4:15) = reshape(gamma_cdf(x2, gshape, rate, loc), [12])
 
         do i = 1, 15
             call check(abs(res(i) - ans(i)) < sptol,                      &
@@ -513,11 +513,11 @@ contains
         call random_seed(seed, get)
         gshape = (2.0_dp, 0.7_dp); rate = (0.8_dp, 1.2_dp); loc = (0._dp, 0._dp)
 
-        x1 = rgamma(loc, gshape, rate)
-        x2 = reshape(rgamma(loc, gshape, rate, 12), [3,4])
+        x1 = rgamma(gshape, rate, loc)
+        x2 = reshape(rgamma(gshape, rate, 12, loc), [3,4])
 
-        res(1:3) = gamma_cdf(x1, loc, gshape, rate)
-        res(4:15) = reshape(gamma_cdf(x2, loc, gshape, rate), [12])
+        res(1:3) = gamma_cdf(x1, gshape, rate, loc)
+        res(4:15) = reshape(gamma_cdf(x2, gshape, rate, loc), [12])
 
         do i = 1, 15
             call check(abs(res(i) - ans(i)) < dptol,                      &
