@@ -209,139 +209,207 @@ contains
 
 
 
-    impure elemental function gamma_dist_rvs_rsp(loc, shape, rate)      &
+    impure elemental function gamma_dist_rvs_rsp(shape, rate, loc)      &
         result(res)
     !
-        real(sp), intent(in) :: loc, shape, rate
+        real(sp), intent(in) :: shape, rate
+        real(sp), intent(in), optional :: loc
         real(sp) :: res
+        real(sp) :: loc_
 
-        if(rate <= 0.0_sp) call error_stop("Error(gamma_dist_rvs): Gamma"  &
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = 0.0_sp
+        end if
+
+        if(rate <= 0.0_sp) call error_stop("Error(gamma_dist_rvs): Gamma" &
         //" distribution rate parameter must be greater than zero")
 
-        res = gamma_dist_rvs_1_rsp(shape) / rate + loc
+        res = gamma_dist_rvs_1_rsp(shape) / rate + loc_
     end function gamma_dist_rvs_rsp
 
-    impure elemental function gamma_dist_rvs_rdp(loc, shape, rate)      &
+    impure elemental function gamma_dist_rvs_rdp(shape, rate, loc)      &
         result(res)
     !
-        real(dp), intent(in) :: loc, shape, rate
+        real(dp), intent(in) :: shape, rate
+        real(dp), intent(in), optional :: loc
         real(dp) :: res
+        real(dp) :: loc_
 
-        if(rate <= 0.0_dp) call error_stop("Error(gamma_dist_rvs): Gamma"  &
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = 0.0_dp
+        end if
+
+        if(rate <= 0.0_dp) call error_stop("Error(gamma_dist_rvs): Gamma" &
         //" distribution rate parameter must be greater than zero")
 
-        res = gamma_dist_rvs_1_rdp(shape) / rate + loc
+        res = gamma_dist_rvs_1_rdp(shape) / rate + loc_
     end function gamma_dist_rvs_rdp
 
 
 
-    impure elemental function gamma_dist_rvs_csp(loc, shape, rate)      &
+    impure elemental function gamma_dist_rvs_csp(shape, rate, loc)      &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(sp), intent(in) :: loc, shape, rate
+        complex(sp), intent(in) :: shape, rate
+        complex(sp), intent(in), optional :: loc
         complex(sp) :: res
+        complex(sp) :: loc_
 
-        res = cmplx(gamma_dist_rvs_rsp(loc%re, shape%re, rate%re),                 &
-                    gamma_dist_rvs_rsp(loc%im, shape%im, rate%im), kind=sp)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
+        end if
+
+        res = cmplx(gamma_dist_rvs_rsp(shape%re, rate%re) + loc_%re,                 &
+                    gamma_dist_rvs_rsp(shape%im, rate%im) + loc_%im, kind=sp)
     end function gamma_dist_rvs_csp
 
-    impure elemental function gamma_dist_rvs_cdp(loc, shape, rate)      &
+    impure elemental function gamma_dist_rvs_cdp(shape, rate, loc)      &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(dp), intent(in) :: loc, shape, rate
+        complex(dp), intent(in) :: shape, rate
+        complex(dp), intent(in), optional :: loc
         complex(dp) :: res
+        complex(dp) :: loc_
 
-        res = cmplx(gamma_dist_rvs_rdp(loc%re, shape%re, rate%re),                 &
-                    gamma_dist_rvs_rdp(loc%im, shape%im, rate%im), kind=dp)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
+        end if
+
+        res = cmplx(gamma_dist_rvs_rdp(shape%re, rate%re) + loc_%re,                 &
+                    gamma_dist_rvs_rdp(shape%im, rate%im) + loc_%im, kind=dp)
     end function gamma_dist_rvs_cdp
 
 
 
-    function gamma_dist_rvs_array_rsp(loc, shape, rate, array_size)     &
+    function gamma_dist_rvs_array_rsp(shape, rate, array_size, loc)     &
         result(res)
     !
-        real(sp), intent(in) :: loc, shape, rate
+        real(sp), intent(in) :: shape, rate
         integer, intent(in) :: array_size
+        real(sp), intent(in), optional :: loc
         real(sp) :: res(array_size)
         integer :: i
+        real(sp) :: loc_
+
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = 0.0_sp
+        end if
 
         do i = 1, array_size
 
-            res(i) = gamma_dist_rvs_rsp(loc, shape, rate)
+            res(i) = gamma_dist_rvs_rsp(shape, rate, loc_)
 
         end do
     end function gamma_dist_rvs_array_rsp
 
-    function gamma_dist_rvs_array_rdp(loc, shape, rate, array_size)     &
+    function gamma_dist_rvs_array_rdp(shape, rate, array_size, loc)     &
         result(res)
     !
-        real(dp), intent(in) :: loc, shape, rate
+        real(dp), intent(in) :: shape, rate
         integer, intent(in) :: array_size
+        real(dp), intent(in), optional :: loc
         real(dp) :: res(array_size)
         integer :: i
+        real(dp) :: loc_
+
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = 0.0_dp
+        end if
 
         do i = 1, array_size
 
-            res(i) = gamma_dist_rvs_rdp(loc, shape, rate)
+            res(i) = gamma_dist_rvs_rdp(shape, rate, loc_)
 
         end do
     end function gamma_dist_rvs_array_rdp
 
 
 
-    function gamma_dist_rvs_array_csp(loc, shape, rate, array_size)     &
+    function gamma_dist_rvs_array_csp(shape, rate, array_size, loc)     &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(sp), intent(in) :: loc, shape, rate
+        complex(sp), intent(in) :: shape, rate
         integer, intent(in) :: array_size
+        complex(sp), intent(in), optional :: loc
         complex(sp) :: res(array_size)
         integer :: i
+        complex(sp) :: loc_
+
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
+        end if
 
         do i = 1, array_size
 
-            res(i) = cmplx(gamma_dist_rvs_rsp(loc%re, shape%re, rate%re),          &
-                           gamma_dist_rvs_rsp(loc%im, shape%im, rate%im),          &
-                           kind=sp)
+            res(i) = gamma_dist_rvs_csp(shape, rate, loc_)
 
         end do
     end function gamma_dist_rvs_array_csp
 
-    function gamma_dist_rvs_array_cdp(loc, shape, rate, array_size)     &
+    function gamma_dist_rvs_array_cdp(shape, rate, array_size, loc)     &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(dp), intent(in) :: loc, shape, rate
+        complex(dp), intent(in) :: shape, rate
         integer, intent(in) :: array_size
+        complex(dp), intent(in), optional :: loc
         complex(dp) :: res(array_size)
         integer :: i
+        complex(dp) :: loc_
+
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
+        end if
 
         do i = 1, array_size
 
-            res(i) = cmplx(gamma_dist_rvs_rdp(loc%re, shape%re, rate%re),          &
-                           gamma_dist_rvs_rdp(loc%im, shape%im, rate%im),          &
-                           kind=dp)
+            res(i) = gamma_dist_rvs_cdp(shape, rate, loc_)
 
         end do
     end function gamma_dist_rvs_array_cdp
 
 
 
-    elemental function gamma_dist_pdf_rsp(x, loc, shape, rate)     &
+    elemental function gamma_dist_pdf_rsp(x, shape, rate, loc)     &
         result(res)
     ! Gamma distribution probability density function
     !
-        real(sp), intent(in) :: x, loc, shape, rate
+        real(sp), intent(in) :: x, shape, rate
+        real(sp), intent(in), optional :: loc
         real(sp) :: res
         real(sp) :: xs
+        real(sp) :: loc_
 
-        xs = x - loc
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = 0.0_sp
+        end if
+
+        xs = x - loc_
 
         if(rate <= 0.0_sp .or. shape <= 0.0_sp) then
             res = ieee_value(1.0_sp, ieee_quiet_nan)
@@ -376,15 +444,23 @@ contains
         endif
     end function gamma_dist_pdf_rsp
 
-    elemental function gamma_dist_pdf_rdp(x, loc, shape, rate)     &
+    elemental function gamma_dist_pdf_rdp(x, shape, rate, loc)     &
         result(res)
     ! Gamma distribution probability density function
     !
-        real(dp), intent(in) :: x, loc, shape, rate
+        real(dp), intent(in) :: x, shape, rate
+        real(dp), intent(in), optional :: loc
         real(dp) :: res
         real(dp) :: xs
+        real(dp) :: loc_
 
-        xs = x - loc
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = 0.0_dp
+        end if
+
+        xs = x - loc_
 
         if(rate <= 0.0_dp .or. shape <= 0.0_dp) then
             res = ieee_value(1.0_dp, ieee_quiet_nan)
@@ -421,105 +497,147 @@ contains
 
 
 
-    impure elemental function gamma_dist_pdf_impure_rsp(x, loc, shape, rate, err) &
+    impure elemental function gamma_dist_pdf_impure_rsp(x, shape, rate, err, loc) &
         result(res)
     ! Gamma distribution probability density function (impure wrapper)
     !
-        real(sp), intent(in) :: x, loc, shape, rate
+        real(sp), intent(in) :: x, shape, rate
         integer, intent(out) :: err
+        real(sp), intent(in), optional :: loc
         real(sp) :: res
 
-        res = gamma_dist_pdf_rsp(x, loc, shape, rate)
+        res = gamma_dist_pdf_rsp(x, shape, rate, loc)
         err = 0
         if(ieee_is_nan(res)) err = 1
     end function gamma_dist_pdf_impure_rsp
 
-    impure elemental function gamma_dist_pdf_impure_rdp(x, loc, shape, rate, err) &
+    impure elemental function gamma_dist_pdf_impure_rdp(x, shape, rate, err, loc) &
         result(res)
     ! Gamma distribution probability density function (impure wrapper)
     !
-        real(dp), intent(in) :: x, loc, shape, rate
+        real(dp), intent(in) :: x, shape, rate
         integer, intent(out) :: err
+        real(dp), intent(in), optional :: loc
         real(dp) :: res
 
-        res = gamma_dist_pdf_rdp(x, loc, shape, rate)
+        res = gamma_dist_pdf_rdp(x, shape, rate, loc)
         err = 0
         if(ieee_is_nan(res)) err = 1
     end function gamma_dist_pdf_impure_rdp
 
 
 
-    elemental function gamma_dist_pdf_csp(x, loc, shape, rate)     &
+    elemental function gamma_dist_pdf_csp(x, shape, rate, loc)     &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are &
     ! independent of each other.
     !
-        complex(sp), intent(in) :: x, loc, shape, rate
+        complex(sp), intent(in) :: x, shape, rate
+        complex(sp), intent(in), optional :: loc
         real(sp) :: res
+        complex(sp) :: loc_
 
-        res = gamma_dist_pdf_rsp(x%re, loc%re, shape%re, rate%re)
-        res = res * gamma_dist_pdf_rsp(x%im, loc%im, shape%im, rate%im)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
+        end if
+
+        res = gamma_dist_pdf_rsp(x%re, shape%re, rate%re, loc_%re)
+        res = res * gamma_dist_pdf_rsp(x%im, shape%im, rate%im, loc_%im)
     end function gamma_dist_pdf_csp
 
-    elemental function gamma_dist_pdf_cdp(x, loc, shape, rate)     &
+    elemental function gamma_dist_pdf_cdp(x, shape, rate, loc)     &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are &
     ! independent of each other.
     !
-        complex(dp), intent(in) :: x, loc, shape, rate
+        complex(dp), intent(in) :: x, shape, rate
+        complex(dp), intent(in), optional :: loc
         real(dp) :: res
+        complex(dp) :: loc_
 
-        res = gamma_dist_pdf_rdp(x%re, loc%re, shape%re, rate%re)
-        res = res * gamma_dist_pdf_rdp(x%im, loc%im, shape%im, rate%im)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
+        end if
+
+        res = gamma_dist_pdf_rdp(x%re, shape%re, rate%re, loc_%re)
+        res = res * gamma_dist_pdf_rdp(x%im, shape%im, rate%im, loc_%im)
     end function gamma_dist_pdf_cdp
 
 
 
-    impure elemental function gamma_dist_pdf_impure_csp(x, loc, shape, rate, err) &
+    impure elemental function gamma_dist_pdf_impure_csp(x, shape, rate, err, loc) &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(sp), intent(in) :: x, loc, shape, rate
+        complex(sp), intent(in) :: x, shape, rate
         integer, intent(out) :: err
+        complex(sp), intent(in), optional :: loc
         real(sp) :: res
+        complex(sp) :: loc_
 
-        res = gamma_dist_pdf_rsp(x%re, loc%re, shape%re, rate%re)
-        res = res * gamma_dist_pdf_rsp(x%im, loc%im, shape%im, rate%im)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
+        end if
+
+        res = gamma_dist_pdf_rsp(x%re, shape%re, rate%re, loc_%re)
+        res = res * gamma_dist_pdf_rsp(x%im, shape%im, rate%im, loc_%im)
         err = 0
         if(ieee_is_nan(res)) err = 1
     end function gamma_dist_pdf_impure_csp
 
-    impure elemental function gamma_dist_pdf_impure_cdp(x, loc, shape, rate, err) &
+    impure elemental function gamma_dist_pdf_impure_cdp(x, shape, rate, err, loc) &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(dp), intent(in) :: x, loc, shape, rate
+        complex(dp), intent(in) :: x, shape, rate
         integer, intent(out) :: err
+        complex(dp), intent(in), optional :: loc
         real(dp) :: res
+        complex(dp) :: loc_
 
-        res = gamma_dist_pdf_rdp(x%re, loc%re, shape%re, rate%re)
-        res = res * gamma_dist_pdf_rdp(x%im, loc%im, shape%im, rate%im)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
+        end if
+
+        res = gamma_dist_pdf_rdp(x%re, shape%re, rate%re, loc_%re)
+        res = res * gamma_dist_pdf_rdp(x%im, shape%im, rate%im, loc_%im)
         err = 0
         if(ieee_is_nan(res)) err = 1
     end function gamma_dist_pdf_impure_cdp
 
 
 
-    impure elemental function gamma_dist_cdf_rsp(x, loc, shape, rate)   &
+    impure elemental function gamma_dist_cdf_rsp(x, shape, rate, loc)   &
         result(res)
     ! Gamma distribution cumulative distribution function
     !
-        real(sp), intent(in) :: x, loc, shape, rate
+        real(sp), intent(in) :: x, shape, rate
+        real(sp), intent(in), optional :: loc
         real(sp) :: res, xs
+        real(sp) :: loc_
+
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = 0.0_sp
+        end if
 
         if(rate <= 0.0_sp .or. shape <= 0.0_sp) then
             res = ieee_value(1.0_sp, ieee_quiet_nan)
             return
         end if
 
-        xs = x - loc
+        xs = x - loc_
         if(xs <= 0.0_sp) then
             res = 0.0_sp
             return
@@ -528,19 +646,27 @@ contains
         res = real(regamma_p(shape, xs * rate), kind=sp)
     end function gamma_dist_cdf_rsp
 
-    impure elemental function gamma_dist_cdf_rdp(x, loc, shape, rate)   &
+    impure elemental function gamma_dist_cdf_rdp(x, shape, rate, loc)   &
         result(res)
     ! Gamma distribution cumulative distribution function
     !
-        real(dp), intent(in) :: x, loc, shape, rate
+        real(dp), intent(in) :: x, shape, rate
+        real(dp), intent(in), optional :: loc
         real(dp) :: res, xs
+        real(dp) :: loc_
+
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = 0.0_dp
+        end if
 
         if(rate <= 0.0_dp .or. shape <= 0.0_dp) then
             res = ieee_value(1.0_dp, ieee_quiet_nan)
             return
         end if
 
-        xs = x - loc
+        xs = x - loc_
         if(xs <= 0.0_dp) then
             res = 0.0_dp
             return
@@ -551,86 +677,120 @@ contains
 
 
 
-    impure elemental function gamma_dist_cdf_impure_rsp(x, loc, shape, rate, err) &
+    impure elemental function gamma_dist_cdf_impure_rsp(x, shape, rate, err, loc) &
         result(res)
     ! Gamma distribution cumulative distribution function (impure wrapper)
     !
-        real(sp), intent(in) :: x, loc, shape, rate
+        real(sp), intent(in) :: x, shape, rate
         integer, intent(out) :: err
+        real(sp), intent(in), optional :: loc
         real(sp) :: res
 
-        res = gamma_dist_cdf_rsp(x, loc, shape, rate)
+        res = gamma_dist_cdf_rsp(x, shape, rate, loc)
         err = 0
         if(ieee_is_nan(res)) err = 1
     end function gamma_dist_cdf_impure_rsp
 
-    impure elemental function gamma_dist_cdf_impure_rdp(x, loc, shape, rate, err) &
+    impure elemental function gamma_dist_cdf_impure_rdp(x, shape, rate, err, loc) &
         result(res)
     ! Gamma distribution cumulative distribution function (impure wrapper)
     !
-        real(dp), intent(in) :: x, loc, shape, rate
+        real(dp), intent(in) :: x, shape, rate
         integer, intent(out) :: err
+        real(dp), intent(in), optional :: loc
         real(dp) :: res
 
-        res = gamma_dist_cdf_rdp(x, loc, shape, rate)
+        res = gamma_dist_cdf_rdp(x, shape, rate, loc)
         err = 0
         if(ieee_is_nan(res)) err = 1
     end function gamma_dist_cdf_impure_rdp
 
 
 
-    impure elemental function gamma_dist_cdf_csp(x, loc, shape, rate)   &
+    impure elemental function gamma_dist_cdf_csp(x, shape, rate, loc)   &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(sp), intent(in) :: x, loc, shape, rate
+        complex(sp), intent(in) :: x, shape, rate
+        complex(sp), intent(in), optional :: loc
         real(sp) :: res
+        complex(sp) :: loc_
 
-        res = gamma_dist_cdf_rsp(x%re, loc%re, shape%re, rate%re)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
+        end if
 
-        res = res * gamma_dist_cdf_rsp(x%im, loc%im, shape%im, rate%im)
+        res = gamma_dist_cdf_rsp(x%re, shape%re, rate%re, loc_%re)
+
+        res = res * gamma_dist_cdf_rsp(x%im, shape%im, rate%im, loc_%im)
     end function gamma_dist_cdf_csp
 
-    impure elemental function gamma_dist_cdf_cdp(x, loc, shape, rate)   &
+    impure elemental function gamma_dist_cdf_cdp(x, shape, rate, loc)   &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(dp), intent(in) :: x, loc, shape, rate
+        complex(dp), intent(in) :: x, shape, rate
+        complex(dp), intent(in), optional :: loc
         real(dp) :: res
+        complex(dp) :: loc_
 
-        res = gamma_dist_cdf_rdp(x%re, loc%re, shape%re, rate%re)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
+        end if
 
-        res = res * gamma_dist_cdf_rdp(x%im, loc%im, shape%im, rate%im)
+        res = gamma_dist_cdf_rdp(x%re, shape%re, rate%re, loc_%re)
+
+        res = res * gamma_dist_cdf_rdp(x%im, shape%im, rate%im, loc_%im)
     end function gamma_dist_cdf_cdp
 
 
 
-    impure elemental function gamma_dist_cdf_impure_csp(x, loc, shape, rate, err) &
+    impure elemental function gamma_dist_cdf_impure_csp(x, shape, rate, err, loc) &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(sp), intent(in) :: x, loc, shape, rate
+        complex(sp), intent(in) :: x, shape, rate
         integer, intent(out) :: err
+        complex(sp), intent(in), optional :: loc
         real(sp) :: res
+        complex(sp) :: loc_
 
-        res = gamma_dist_cdf_csp(x, loc, shape, rate)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
+        end if
+
+        res = gamma_dist_cdf_csp(x, shape, rate, loc_)
         err = 0
         if(ieee_is_nan(res)) err = 1
     end function gamma_dist_cdf_impure_csp
 
-    impure elemental function gamma_dist_cdf_impure_cdp(x, loc, shape, rate, err) &
+    impure elemental function gamma_dist_cdf_impure_cdp(x, shape, rate, err, loc) &
         result(res)
     ! Complex parameter gamma distributed. The real part and imaginary part are           &
     ! independent of each other.
     !
-        complex(dp), intent(in) :: x, loc, shape, rate
+        complex(dp), intent(in) :: x, shape, rate
         integer, intent(out) :: err
+        complex(dp), intent(in), optional :: loc
         real(dp) :: res
+        complex(dp) :: loc_
 
-        res = gamma_dist_cdf_cdp(x, loc, shape, rate)
+        if(present(loc)) then
+            loc_ = loc
+        else
+            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
+        end if
+
+        res = gamma_dist_cdf_cdp(x, shape, rate, loc_)
         err = 0
         if(ieee_is_nan(res)) err = 1
     end function gamma_dist_cdf_impure_cdp
