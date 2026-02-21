@@ -2,6 +2,7 @@ Module stdlib_stats_distribution_gamma
     use ieee_arithmetic, only: ieee_value, ieee_quiet_nan, ieee_is_nan
     use stdlib_kinds, only : sp, dp, xdp
     use stdlib_error, only : error_stop
+    use stdlib_optval, only : optval
     use stdlib_stats_distribution_uniform, only : uni=>rvs_uniform
     use stdlib_stats_distribution_normal, only : rnor=>rvs_normal
     use stdlib_specialfunctions_gamma, only : regamma_p=>regularized_gamma_p
@@ -217,11 +218,7 @@ contains
         real(sp) :: res
         real(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = 0.0_sp
-        end if
+        loc_ = optval(loc, 0.0_sp)
 
         if(rate <= 0.0_sp) call error_stop("Error(gamma_dist_rvs): Gamma" &
         //" distribution rate parameter must be greater than zero")
@@ -237,11 +234,7 @@ contains
         real(dp) :: res
         real(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = 0.0_dp
-        end if
+        loc_ = optval(loc, 0.0_dp)
 
         if(rate <= 0.0_dp) call error_stop("Error(gamma_dist_rvs): Gamma" &
         //" distribution rate parameter must be greater than zero")
@@ -261,11 +254,7 @@ contains
         complex(sp) :: res
         complex(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_sp, 0.0_sp, kind=sp))
 
         res = cmplx(gamma_dist_rvs_rsp(shape%re, rate%re) + loc_%re,                 &
                     gamma_dist_rvs_rsp(shape%im, rate%im) + loc_%im, kind=sp)
@@ -281,11 +270,7 @@ contains
         complex(dp) :: res
         complex(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_dp, 0.0_dp, kind=dp))
 
         res = cmplx(gamma_dist_rvs_rdp(shape%re, rate%re) + loc_%re,                 &
                     gamma_dist_rvs_rdp(shape%im, rate%im) + loc_%im, kind=dp)
@@ -303,11 +288,7 @@ contains
         integer :: i
         real(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = 0.0_sp
-        end if
+        loc_ = optval(loc, 0.0_sp)
 
         do i = 1, array_size
 
@@ -326,11 +307,7 @@ contains
         integer :: i
         real(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = 0.0_dp
-        end if
+        loc_ = optval(loc, 0.0_dp)
 
         do i = 1, array_size
 
@@ -353,11 +330,7 @@ contains
         integer :: i
         complex(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_sp, 0.0_sp, kind=sp))
 
         do i = 1, array_size
 
@@ -378,11 +351,7 @@ contains
         integer :: i
         complex(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_dp, 0.0_dp, kind=dp))
 
         do i = 1, array_size
 
@@ -403,11 +372,7 @@ contains
         real(sp) :: xs
         real(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = 0.0_sp
-        end if
+        loc_ = optval(loc, 0.0_sp)
 
         xs = x - loc_
 
@@ -454,11 +419,7 @@ contains
         real(dp) :: xs
         real(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = 0.0_dp
-        end if
+        loc_ = optval(loc, 0.0_dp)
 
         xs = x - loc_
 
@@ -537,11 +498,7 @@ contains
         real(sp) :: res
         complex(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_sp, 0.0_sp, kind=sp))
 
         res = gamma_dist_pdf_rsp(x%re, shape%re, rate%re, loc_%re)
         res = res * gamma_dist_pdf_rsp(x%im, shape%im, rate%im, loc_%im)
@@ -557,11 +514,7 @@ contains
         real(dp) :: res
         complex(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_dp, 0.0_dp, kind=dp))
 
         res = gamma_dist_pdf_rdp(x%re, shape%re, rate%re, loc_%re)
         res = res * gamma_dist_pdf_rdp(x%im, shape%im, rate%im, loc_%im)
@@ -580,11 +533,7 @@ contains
         real(sp) :: res
         complex(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_sp, 0.0_sp, kind=sp))
 
         res = gamma_dist_pdf_rsp(x%re, shape%re, rate%re, loc_%re)
         res = res * gamma_dist_pdf_rsp(x%im, shape%im, rate%im, loc_%im)
@@ -603,11 +552,7 @@ contains
         real(dp) :: res
         complex(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_dp, 0.0_dp, kind=dp))
 
         res = gamma_dist_pdf_rdp(x%re, shape%re, rate%re, loc_%re)
         res = res * gamma_dist_pdf_rdp(x%im, shape%im, rate%im, loc_%im)
@@ -626,11 +571,7 @@ contains
         real(sp) :: res, xs
         real(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = 0.0_sp
-        end if
+        loc_ = optval(loc, 0.0_sp)
 
         if(rate <= 0.0_sp .or. shape <= 0.0_sp) then
             res = ieee_value(1.0_sp, ieee_quiet_nan)
@@ -655,11 +596,7 @@ contains
         real(dp) :: res, xs
         real(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = 0.0_dp
-        end if
+        loc_ = optval(loc, 0.0_dp)
 
         if(rate <= 0.0_dp .or. shape <= 0.0_dp) then
             res = ieee_value(1.0_dp, ieee_quiet_nan)
@@ -717,11 +654,7 @@ contains
         real(sp) :: res
         complex(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_sp, 0.0_sp, kind=sp))
 
         res = gamma_dist_cdf_rsp(x%re, shape%re, rate%re, loc_%re)
 
@@ -738,11 +671,7 @@ contains
         real(dp) :: res
         complex(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_dp, 0.0_dp, kind=dp))
 
         res = gamma_dist_cdf_rdp(x%re, shape%re, rate%re, loc_%re)
 
@@ -762,11 +691,7 @@ contains
         real(sp) :: res
         complex(sp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_sp, 0.0_sp, kind=sp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_sp, 0.0_sp, kind=sp))
 
         res = gamma_dist_cdf_csp(x, shape, rate, loc_)
         err = 0
@@ -784,11 +709,7 @@ contains
         real(dp) :: res
         complex(dp) :: loc_
 
-        if(present(loc)) then
-            loc_ = loc
-        else
-            loc_ = cmplx(0.0_dp, 0.0_dp, kind=dp)
-        end if
+        loc_ = optval(loc, cmplx(0.0_dp, 0.0_dp, kind=dp))
 
         res = gamma_dist_cdf_cdp(x, shape, rate, loc_)
         err = 0
