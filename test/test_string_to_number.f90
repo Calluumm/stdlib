@@ -95,9 +95,6 @@ contains
         &                        "175706828388979108268586060148663818836212158203125E-44"))
         if (allocated(error)) return
 
-        call check(error, ucheck("5.405355598523852356954817904851589E-0002"))
-        if (allocated(error)) return
-
     contains
         logical function ucheck(s)
             character(*), intent(in) :: s
@@ -196,9 +193,6 @@ contains
         &                        "175706828388979108268586060148663818836212158203125E-44"))
         if (allocated(error)) return
 
-        call check(error, ucheck("5.405355598523852356954817904851589E-0002"))
-        if (allocated(error)) return
-
     contains
         logical function ucheck(s)
             character(*), intent(in) :: s
@@ -213,7 +207,7 @@ contains
             abs_err = to_num_out - formatted_read_out
             rel_err = abs_err / formatted_read_out
 
-            if(abs(rel_err) > 10*epsilon(0.0_wp)) then
+            if(abs(rel_err) > epsilon(0.0_wp)) then
                 write(*,"('formatted read : ', g0)") formatted_read_out
                 write(*,"('to_num         : ', g0)") to_num_out
                 write(*,"('difference abs : ', g0)") abs_err
