@@ -4415,6 +4415,8 @@ contains
      end function regamma_q_iint64dp
 
 
+
+
     !
     ! Beta function implementations
     !
@@ -4481,7 +4483,7 @@ contains
 
 
 
-    impure elemental function incomplete_beta_rsp(x, a, b) result(res)
+    elemental function incomplete_beta_rsp(x, a, b) result(res)
     ! Regularized incomplete beta function I_x(a,b)
     ! Uses continued fraction expansion for numerical accuracy
     !
@@ -4529,7 +4531,7 @@ contains
         end if
     end function incomplete_beta_rsp
 
-    impure elemental function incomplete_beta_rdp(x, a, b) result(res)
+    elemental function incomplete_beta_rdp(x, a, b) result(res)
     ! Regularized incomplete beta function I_x(a,b)
     ! Uses continued fraction expansion for numerical accuracy
     !
