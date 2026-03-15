@@ -336,8 +336,7 @@ contains
         real(sp) :: res
 
         res = beta_dist_pdf_rsp(x, a, b, loc)
-        err = 0
-        if(ieee_is_nan(res)) err = 1
+        err = merge(1, 0, ieee_is_nan(res))
     end function beta_dist_pdf_impure_rsp
 
     impure elemental function beta_dist_pdf_impure_rdp(x, a, b, err, loc) &
@@ -350,8 +349,7 @@ contains
         real(dp) :: res
 
         res = beta_dist_pdf_rdp(x, a, b, loc)
-        err = 0
-        if(ieee_is_nan(res)) err = 1
+        err = merge(1, 0, ieee_is_nan(res))
     end function beta_dist_pdf_impure_rdp
 
 
@@ -405,8 +403,7 @@ contains
 
         res = beta_dist_pdf_rsp(x%re, a%re, b%re, loc_%re)
         res = res * beta_dist_pdf_rsp(x%im, a%im, b%im, loc_%im)
-        err = 0
-        if(ieee_is_nan(res)) err = 1
+        err = merge(1, 0, ieee_is_nan(res))
     end function beta_dist_pdf_impure_csp
 
     impure elemental function beta_dist_pdf_impure_cdp(x, a, b, err, loc) &
@@ -424,13 +421,12 @@ contains
 
         res = beta_dist_pdf_rdp(x%re, a%re, b%re, loc_%re)
         res = res * beta_dist_pdf_rdp(x%im, a%im, b%im, loc_%im)
-        err = 0
-        if(ieee_is_nan(res)) err = 1
+        err = merge(1, 0, ieee_is_nan(res))
     end function beta_dist_pdf_impure_cdp
 
 
 
-    impure elemental function beta_dist_cdf_rsp(x, a, b, loc)   &
+    elemental function beta_dist_cdf_rsp(x, a, b, loc)   &
         result(res)
     ! Beta distribution cumulative distribution function
     !
@@ -462,7 +458,7 @@ contains
         res = real(incomplete_beta(xs, a, b), kind=sp)
     end function beta_dist_cdf_rsp
 
-    impure elemental function beta_dist_cdf_rdp(x, a, b, loc)   &
+    elemental function beta_dist_cdf_rdp(x, a, b, loc)   &
         result(res)
     ! Beta distribution cumulative distribution function
     !
@@ -506,8 +502,7 @@ contains
         real(sp) :: res
 
         res = beta_dist_cdf_rsp(x, a, b, loc)
-        err = 0
-        if(ieee_is_nan(res)) err = 1
+        err = merge(1, 0, ieee_is_nan(res))
     end function beta_dist_cdf_impure_rsp
 
     impure elemental function beta_dist_cdf_impure_rdp(x, a, b, err, loc) &
@@ -520,13 +515,12 @@ contains
         real(dp) :: res
 
         res = beta_dist_cdf_rdp(x, a, b, loc)
-        err = 0
-        if(ieee_is_nan(res)) err = 1
+        err = merge(1, 0, ieee_is_nan(res))
     end function beta_dist_cdf_impure_rdp
 
 
 
-    impure elemental function beta_dist_cdf_csp(x, a, b, loc)   &
+    elemental function beta_dist_cdf_csp(x, a, b, loc)   &
         result(res)
     ! Complex parameter beta distributed. The real part and imaginary part are
     ! independent of each other.
@@ -542,7 +536,7 @@ contains
         res = res * beta_dist_cdf_rsp(x%im, a%im, b%im, loc_%im)
     end function beta_dist_cdf_csp
 
-    impure elemental function beta_dist_cdf_cdp(x, a, b, loc)   &
+    elemental function beta_dist_cdf_cdp(x, a, b, loc)   &
         result(res)
     ! Complex parameter beta distributed. The real part and imaginary part are
     ! independent of each other.
@@ -574,8 +568,7 @@ contains
         loc_ = optval(loc, cmplx(0.0_sp, 0.0_sp, kind=sp))
 
         res = beta_dist_cdf_csp(x, a, b, loc_)
-        err = 0
-        if(ieee_is_nan(res)) err = 1
+        err = merge(1, 0, ieee_is_nan(res))
     end function beta_dist_cdf_impure_csp
 
     impure elemental function beta_dist_cdf_impure_cdp(x, a, b, err, loc) &
@@ -592,8 +585,7 @@ contains
         loc_ = optval(loc, cmplx(0.0_dp, 0.0_dp, kind=dp))
 
         res = beta_dist_cdf_cdp(x, a, b, loc_)
-        err = 0
-        if(ieee_is_nan(res)) err = 1
+        err = merge(1, 0, ieee_is_nan(res))
     end function beta_dist_cdf_impure_cdp
 
 
