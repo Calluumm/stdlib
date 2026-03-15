@@ -4588,6 +4588,7 @@ contains
         real(sp) :: res
         real(sp) :: aa, c, d, del, h, qab, qam, qap, fpmin
         integer :: m, m2
+        logical :: converged
         real(sp), parameter :: one = 1.0_sp
 
         fpmin = tiny(1.0_sp) / eps
@@ -4600,6 +4601,7 @@ contains
         if(abs(d) < fpmin) d = fpmin
         d = one / d
         h = d
+        converged = .false.
 
         do m = 1, maxit
             m2 = 2 * m
@@ -4618,10 +4620,17 @@ contains
             d = one / d
             del = d * c
             h = h * del
-            if(abs(del - one) < eps) exit
+            if(abs(del - one) < eps) then
+                converged = .true.
+                exit
+            end if
         end do
 
-        res = h
+        if (converged) then
+            res = h
+        else
+            res = ieee_value(one, ieee_quiet_nan)
+        end if
     end function betacf_rsp
 
     pure function betacf_rdp(x, a, b, eps, maxit) result(res)
@@ -4633,6 +4642,7 @@ contains
         real(dp) :: res
         real(dp) :: aa, c, d, del, h, qab, qam, qap, fpmin
         integer :: m, m2
+        logical :: converged
         real(dp), parameter :: one = 1.0_dp
 
         fpmin = tiny(1.0_dp) / eps
@@ -4645,6 +4655,7 @@ contains
         if(abs(d) < fpmin) d = fpmin
         d = one / d
         h = d
+        converged = .false.
 
         do m = 1, maxit
             m2 = 2 * m
@@ -4663,10 +4674,17 @@ contains
             d = one / d
             del = d * c
             h = h * del
-            if(abs(del - one) < eps) exit
+            if(abs(del - one) < eps) then
+                converged = .true.
+                exit
+            end if
         end do
 
-        res = h
+        if (converged) then
+            res = h
+        else
+            res = ieee_value(one, ieee_quiet_nan)
+        end if
     end function betacf_rdp
 
 
