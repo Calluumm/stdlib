@@ -5,7 +5,7 @@ Module stdlib_stats_distribution_beta
     use stdlib_optval, only : optval
     use stdlib_stats_distribution_uniform, only : uni=>rvs_uniform
     use stdlib_stats_distribution_gamma, only : rgamma=>rvs_gamma
-    use stdlib_specialfunctions_gamma, only : beta, incomplete_beta
+    use stdlib_specialfunctions_gamma, only : beta, incomplete_beta, log_beta
 
     implicit none
     private
@@ -293,7 +293,7 @@ contains
         end if
 
         ! Use log formulation for numerical stability
-        res = exp((a - one) * log(xs) + (b - one) * log(one - xs) - log(beta(a, b)))
+        res = exp((a - one) * log(xs) + (b - one) * log(one - xs) - log_beta(a, b))
     end function beta_dist_pdf_rsp
 
     elemental function beta_dist_pdf_rdp(x, a, b, loc)     &
@@ -321,7 +321,7 @@ contains
         end if
 
         ! Use log formulation for numerical stability
-        res = exp((a - one) * log(xs) + (b - one) * log(one - xs) - log(beta(a, b)))
+        res = exp((a - one) * log(xs) + (b - one) * log(one - xs) - log_beta(a, b))
     end function beta_dist_pdf_rdp
 
 
