@@ -1,4 +1,4 @@
-module stdlib_stats_distribution_beta    
+module stdlib_stats_distribution_beta
     use ieee_arithmetic, only: ieee_value, ieee_quiet_nan, ieee_is_nan
     use stdlib_kinds, only : sp, dp, xdp
     use stdlib_error, only : error_stop
@@ -279,13 +279,13 @@ contains
         real(sp) :: loc_
         real(sp), parameter :: zero = 0.0_sp, one = 1.0_sp
 
-        loc_ = optval(loc, 0.0_sp)
-        xs = x - loc_
-
         if(a <= zero .or. b <= zero) then
             res = ieee_value(1.0_sp, ieee_quiet_nan)
             return
         end if
+
+        loc_ = optval(loc, 0.0_sp)
+        xs = x - loc_
 
         if(xs <= zero .or. xs >= one) then
             res = zero
@@ -307,13 +307,13 @@ contains
         real(dp) :: loc_
         real(dp), parameter :: zero = 0.0_dp, one = 1.0_dp
 
-        loc_ = optval(loc, 0.0_dp)
-        xs = x - loc_
-
         if(a <= zero .or. b <= zero) then
             res = ieee_value(1.0_dp, ieee_quiet_nan)
             return
         end if
+
+        loc_ = optval(loc, 0.0_dp)
+        xs = x - loc_
 
         if(xs <= zero .or. xs >= one) then
             res = zero
