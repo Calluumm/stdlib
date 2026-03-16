@@ -1,4 +1,4 @@
-Module stdlib_stats_distribution_beta    
+module stdlib_stats_distribution_beta    
     use ieee_arithmetic, only: ieee_value, ieee_quiet_nan, ieee_is_nan
     use stdlib_kinds, only : sp, dp, xdp
     use stdlib_error, only : error_stop
