@@ -1839,8 +1839,8 @@ contains
         type(error_type), allocatable, intent(out) :: error
         integer, parameter :: n = 3
         integer :: i
-        real(sp) :: a(n) = [2.0_sp, 1.0_sp, 0.5_sp]
-        real(sp) :: b(n) = [3.0_sp, 1.0_sp, 0.5_sp]
+        real(sp), parameter :: a(n) = [2.0_sp, 1.0_sp, 0.5_sp]
+        real(sp), parameter :: b(n) = [3.0_sp, 1.0_sp, 0.5_sp]
 
         real(sp), parameter :: ans(n) = [1.0_sp/12.0_sp,                 &
                                        1.0_sp,                             &
@@ -1851,6 +1851,7 @@ contains
             call check(error, beta(a(i), b(i)), ans(i),                        &
               "Beta function with a(kind=sp) and b(kind=sp) failed",  &
               thr = tol_sp, rel = .true.)
+                        if (allocated(error)) return
 
         end do
     end subroutine test_beta_rsp
@@ -1861,6 +1862,7 @@ contains
         type(error_type), allocatable, intent(out) :: error
         integer, parameter :: n = 3
         integer :: i
+        character(len=120) :: msg
         real(sp) :: a(n) = [2.0_sp, 1.0_sp, 0.5_sp]
         real(sp) :: b(n) = [3.0_sp, 1.0_sp, 0.5_sp]
 
@@ -1869,10 +1871,12 @@ contains
                                        log(acos(-1.0_sp))]
 
         do i = 1, n
+                        write(msg, '(a,i0)') "Log-beta function with a(kind=sp) and b(kind=sp) failed at i=", i
 
             call check(error, log_beta(a(i), b(i)), ans(i),                    &
-              "Log-beta function with a(kind=sp) and b(kind=sp) failed",  &
+                            msg,                                                              &
               thr = tol_sp, rel = .true.)
+                        if (allocated(error)) return
 
         end do
     end subroutine test_log_beta_rsp
@@ -1897,6 +1901,7 @@ contains
             call check(error, incomplete_beta(x(i), a(i), b(i)), ans(i),       &
               "Incomplete beta I_x(a,b) with kind=sp failed",             &
               thr = tol_sp, rel = .true.)
+                        if (allocated(error)) return
 
         end do
     end subroutine test_incomplete_beta_rsp
@@ -2049,8 +2054,8 @@ contains
         type(error_type), allocatable, intent(out) :: error
         integer, parameter :: n = 3
         integer :: i
-        real(dp) :: a(n) = [2.0_dp, 1.0_dp, 0.5_dp]
-        real(dp) :: b(n) = [3.0_dp, 1.0_dp, 0.5_dp]
+        real(dp), parameter :: a(n) = [2.0_dp, 1.0_dp, 0.5_dp]
+        real(dp), parameter :: b(n) = [3.0_dp, 1.0_dp, 0.5_dp]
 
         real(dp), parameter :: ans(n) = [1.0_dp/12.0_dp,                 &
                                        1.0_dp,                             &
@@ -2061,6 +2066,7 @@ contains
             call check(error, beta(a(i), b(i)), ans(i),                        &
               "Beta function with a(kind=dp) and b(kind=dp) failed",  &
               thr = tol_dp, rel = .true.)
+                        if (allocated(error)) return
 
         end do
     end subroutine test_beta_rdp
@@ -2071,6 +2077,7 @@ contains
         type(error_type), allocatable, intent(out) :: error
         integer, parameter :: n = 3
         integer :: i
+        character(len=120) :: msg
         real(dp) :: a(n) = [2.0_dp, 1.0_dp, 0.5_dp]
         real(dp) :: b(n) = [3.0_dp, 1.0_dp, 0.5_dp]
 
@@ -2079,10 +2086,12 @@ contains
                                        log(acos(-1.0_dp))]
 
         do i = 1, n
+                        write(msg, '(a,i0)') "Log-beta function with a(kind=dp) and b(kind=dp) failed at i=", i
 
             call check(error, log_beta(a(i), b(i)), ans(i),                    &
-              "Log-beta function with a(kind=dp) and b(kind=dp) failed",  &
+                            msg,                                                              &
               thr = tol_dp, rel = .true.)
+                        if (allocated(error)) return
 
         end do
     end subroutine test_log_beta_rdp
@@ -2107,6 +2116,7 @@ contains
             call check(error, incomplete_beta(x(i), a(i), b(i)), ans(i),       &
               "Incomplete beta I_x(a,b) with kind=dp failed",             &
               thr = tol_dp, rel = .true.)
+                        if (allocated(error)) return
 
         end do
     end subroutine test_incomplete_beta_rdp
