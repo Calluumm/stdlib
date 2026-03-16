@@ -186,9 +186,10 @@ contains
 
     subroutine test_beta_pdf_rsp
         real(sp) :: x1, x2(3,4), ba, bb, loc
+                integer, parameter :: n = 15
         integer :: i
-        real(sp) :: res(15)
-        real(sp), parameter :: ans(15) =                                   &
+                real(sp) :: res(n)
+                real(sp), parameter :: ans(*) =                                    &
                  [2.45759999999999978E+00_sp,            &
                   2.45759999999999978E+00_sp,            &
                   2.45759999999999978E+00_sp,            &
@@ -206,7 +207,9 @@ contains
                   3.83999999999999897E-02_sp]
 
         print *, "Test beta_distribution_pdf_rsp"
-        ba = 2.0_sp; bb = 5.0_sp; loc = 0._sp
+        ba = 2.0_sp
+        bb = 5.0_sp
+        loc = 0._sp
         x1 = 0.2_sp
         x2 = reshape([0.05_sp, 0.1_sp, 0.15_sp, 0.25_sp,      &
                       0.3_sp, 0.35_sp, 0.4_sp, 0.45_sp,       &
@@ -215,7 +218,7 @@ contains
         res(1:3) = beta_pdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_pdf(x2, ba, bb, loc), [12])
 
-        do i = 1, 15
+        do i = 1, n
             call check(abs(res(i) - ans(i)) < max(sptol, 1.0e-11_sp), &
                        msg="beta_distribution_pdf_rsp failed", &
                        warn=warn)
@@ -224,9 +227,10 @@ contains
 
     subroutine test_beta_pdf_rdp
         real(dp) :: x1, x2(3,4), ba, bb, loc
+                integer, parameter :: n = 15
         integer :: i
-        real(dp) :: res(15)
-        real(dp), parameter :: ans(15) =                                   &
+                real(dp) :: res(n)
+                real(dp), parameter :: ans(*) =                                    &
                  [2.45759999999999978E+00_dp,            &
                   2.45759999999999978E+00_dp,            &
                   2.45759999999999978E+00_dp,            &
@@ -244,7 +248,9 @@ contains
                   3.83999999999999897E-02_dp]
 
         print *, "Test beta_distribution_pdf_rdp"
-        ba = 2.0_dp; bb = 5.0_dp; loc = 0._dp
+        ba = 2.0_dp
+        bb = 5.0_dp
+        loc = 0._dp
         x1 = 0.2_dp
         x2 = reshape([0.05_dp, 0.1_dp, 0.15_dp, 0.25_dp,      &
                       0.3_dp, 0.35_dp, 0.4_dp, 0.45_dp,       &
@@ -253,7 +259,7 @@ contains
         res(1:3) = beta_pdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_pdf(x2, ba, bb, loc), [12])
 
-        do i = 1, 15
+        do i = 1, n
             call check(abs(res(i) - ans(i)) < max(dptol, 1.0e-11_dp), &
                        msg="beta_distribution_pdf_rdp failed", &
                        warn=warn)
@@ -262,9 +268,10 @@ contains
 
     subroutine test_beta_pdf_csp
         complex(sp) :: x1, x2(3,4), ba, bb, loc
+                integer, parameter :: n = 15
         integer :: i
-        real(sp) :: res(15)
-        real(sp), parameter :: ans(15) =                                   &
+                real(sp) :: res(n)
+                real(sp), parameter :: ans(*) =                                    &
                  [2.77620563793055197E+00_sp,            &
                   2.77620563793055197E+00_sp,            &
                   2.77620563793055197E+00_sp,            &
@@ -282,7 +289,9 @@ contains
                   6.17909755246391895E-03_sp]
 
         print *, "Test beta_distribution_pdf_csp"
-        ba = (2.0_sp, 0.7_sp); bb = (5.0_sp, 3.0_sp); loc = (0._sp, 0._sp)
+        ba = (2.0_sp, 0.7_sp)
+        bb = (5.0_sp, 3.0_sp)
+        loc = (0._sp, 0._sp)
         x1 = (0.2_sp, 0.3_sp)
         x2 = reshape([(0.05_sp, 0.05_sp), (0.1_sp, 0.1_sp),   &
                       (0.15_sp, 0.2_sp), (0.25_sp, 0.25_sp),   &
@@ -294,7 +303,7 @@ contains
         res(1:3) = beta_pdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_pdf(x2, ba, bb, loc), [12])
 
-        do i = 1, 15
+        do i = 1, n
             call check(abs(res(i) - ans(i)) < max(sptol, 1.0e-11_sp), &
                        msg="beta_distribution_pdf_csp failed", &
                        warn=warn)
@@ -303,9 +312,10 @@ contains
 
     subroutine test_beta_pdf_cdp
         complex(dp) :: x1, x2(3,4), ba, bb, loc
+                integer, parameter :: n = 15
         integer :: i
-        real(dp) :: res(15)
-        real(dp), parameter :: ans(15) =                                   &
+                real(dp) :: res(n)
+                real(dp), parameter :: ans(*) =                                    &
                  [2.77620563793055197E+00_dp,            &
                   2.77620563793055197E+00_dp,            &
                   2.77620563793055197E+00_dp,            &
@@ -323,7 +333,9 @@ contains
                   6.17909755246391895E-03_dp]
 
         print *, "Test beta_distribution_pdf_cdp"
-        ba = (2.0_dp, 0.7_dp); bb = (5.0_dp, 3.0_dp); loc = (0._dp, 0._dp)
+        ba = (2.0_dp, 0.7_dp)
+        bb = (5.0_dp, 3.0_dp)
+        loc = (0._dp, 0._dp)
         x1 = (0.2_dp, 0.3_dp)
         x2 = reshape([(0.05_dp, 0.05_dp), (0.1_dp, 0.1_dp),   &
                       (0.15_dp, 0.2_dp), (0.25_dp, 0.25_dp),   &
@@ -335,7 +347,7 @@ contains
         res(1:3) = beta_pdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_pdf(x2, ba, bb, loc), [12])
 
-        do i = 1, 15
+        do i = 1, n
             call check(abs(res(i) - ans(i)) < max(dptol, 1.0e-11_dp), &
                        msg="beta_distribution_pdf_cdp failed", &
                        warn=warn)
