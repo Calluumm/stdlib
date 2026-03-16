@@ -4429,11 +4429,10 @@ contains
 
         if(a <= 0.0_sp .or. b <= 0.0_sp) then
             res = ieee_value(1.0_sp, ieee_quiet_nan)
-            return
+        else
+            ! Use log-gamma for numerical stability
+            res = exp(log_gamma(a) + log_gamma(b) - log_gamma(a + b))
         end if
-
-        ! Use log-gamma for numerical stability
-        res = exp(log_gamma(a) + log_gamma(b) - log_gamma(a + b))
     end function beta_rsp
 
     elemental function beta_rdp(a, b) result(res)
@@ -4444,11 +4443,10 @@ contains
 
         if(a <= 0.0_dp .or. b <= 0.0_dp) then
             res = ieee_value(1.0_dp, ieee_quiet_nan)
-            return
+        else
+            ! Use log-gamma for numerical stability
+            res = exp(log_gamma(a) + log_gamma(b) - log_gamma(a + b))
         end if
-
-        ! Use log-gamma for numerical stability
-        res = exp(log_gamma(a) + log_gamma(b) - log_gamma(a + b))
     end function beta_rdp
 
 
@@ -4461,10 +4459,9 @@ contains
 
         if(a <= 0.0_sp .or. b <= 0.0_sp) then
             res = ieee_value(1.0_sp, ieee_quiet_nan)
-            return
+        else
+            res = log_gamma(a) + log_gamma(b) - log_gamma(a + b)
         end if
-
-        res = log_gamma(a) + log_gamma(b) - log_gamma(a + b)
     end function log_beta_rsp
 
     elemental function log_beta_rdp(a, b) result(res)
@@ -4475,10 +4472,9 @@ contains
 
         if(a <= 0.0_dp .or. b <= 0.0_dp) then
             res = ieee_value(1.0_dp, ieee_quiet_nan)
-            return
+        else
+            res = log_gamma(a) + log_gamma(b) - log_gamma(a + b)
         end if
-
-        res = log_gamma(a) + log_gamma(b) - log_gamma(a + b)
     end function log_beta_rdp
 
 
@@ -4494,23 +4490,13 @@ contains
         real(sp), parameter :: eps = epsilon(1.0_sp)
         integer, parameter :: maxit = 200
 
-        if(a <= zero .or. b <= zero) then
+        if((a <= zero .or. b <= zero) .or. (x < zero .or. x > one)) then
             res = ieee_value(1.0_sp, ieee_quiet_nan)
             return
         end if
 
-        if(x < zero .or. x > one) then
-            res = ieee_value(1.0_sp, ieee_quiet_nan)
-            return
-        end if
-
-        if(x == zero) then
-            res = zero
-            return
-        end if
-
-        if(x == one) then
-            res = one
+        if(x == zero .or. x == one) then
+            res = x
             return
         end if
 
@@ -4542,23 +4528,13 @@ contains
         real(dp), parameter :: eps = epsilon(1.0_dp)
         integer, parameter :: maxit = 200
 
-        if(a <= zero .or. b <= zero) then
+        if((a <= zero .or. b <= zero) .or. (x < zero .or. x > one)) then
             res = ieee_value(1.0_dp, ieee_quiet_nan)
             return
         end if
 
-        if(x < zero .or. x > one) then
-            res = ieee_value(1.0_dp, ieee_quiet_nan)
-            return
-        end if
-
-        if(x == zero) then
-            res = zero
-            return
-        end if
-
-        if(x == one) then
-            res = one
+        if(x == zero .or. x == one) then
+            res = x
             return
         end if
 
