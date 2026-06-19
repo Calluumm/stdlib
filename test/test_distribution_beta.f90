@@ -86,11 +86,9 @@ contains
             ans(i) = rbeta(ba, bb, loc)
         end do
 
-        do i = 1, n
-            call check(abs(res(i) - ans(i)) < sptol,                      &
-                       msg="beta_distribution_rvs_rsp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < sptol),                           &
+                   msg="beta_distribution_rvs_rsp failed",      &
+                   warn=warn)
     end subroutine test_beta_rvs_rsp
 
     subroutine test_beta_rvs_rdp
@@ -116,11 +114,9 @@ contains
             ans(i) = rbeta(ba, bb, loc)
         end do
 
-        do i = 1, n
-            call check(abs(res(i) - ans(i)) < dptol,                      &
-                       msg="beta_distribution_rvs_rdp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < dptol),                           &
+                   msg="beta_distribution_rvs_rdp failed",      &
+                   warn=warn)
     end subroutine test_beta_rvs_rdp
 
     subroutine test_beta_rvs_csp
@@ -146,11 +142,9 @@ contains
             ans(i) = rbeta(ba, bb, loc)
         end do
 
-        do i = 1, n
-            call check(abs(res(i) - ans(i)) < sptol,                      &
-                       msg="beta_distribution_rvs_csp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < sptol),                           &
+                   msg="beta_distribution_rvs_csp failed",      &
+                   warn=warn)
     end subroutine test_beta_rvs_csp
 
     subroutine test_beta_rvs_cdp
@@ -176,11 +170,9 @@ contains
             ans(i) = rbeta(ba, bb, loc)
         end do
 
-        do i = 1, n
-            call check(abs(res(i) - ans(i)) < dptol,                      &
-                       msg="beta_distribution_rvs_cdp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < dptol),                           &
+                   msg="beta_distribution_rvs_cdp failed",      &
+                   warn=warn)
     end subroutine test_beta_rvs_cdp
 
 
@@ -218,11 +210,9 @@ contains
         res(1:3) = beta_pdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_pdf(x2, ba, bb, loc), [12])
 
-        do i = 1, n
-            call check(abs(res(i) - ans(i)) < max(sptol, 1.0e-11_sp), &
-                       msg="beta_distribution_pdf_rsp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < max(sptol, 1.0e-11_sp)),      &
+                   msg="beta_distribution_pdf_rsp failed",      &
+                   warn=warn)
     end subroutine test_beta_pdf_rsp
 
     subroutine test_beta_pdf_rdp
@@ -259,11 +249,9 @@ contains
         res(1:3) = beta_pdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_pdf(x2, ba, bb, loc), [12])
 
-        do i = 1, n
-            call check(abs(res(i) - ans(i)) < max(dptol, 1.0e-11_dp), &
-                       msg="beta_distribution_pdf_rdp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < max(dptol, 1.0e-11_dp)),      &
+                   msg="beta_distribution_pdf_rdp failed",      &
+                   warn=warn)
     end subroutine test_beta_pdf_rdp
 
     subroutine test_beta_pdf_csp
@@ -303,11 +291,9 @@ contains
         res(1:3) = beta_pdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_pdf(x2, ba, bb, loc), [12])
 
-        do i = 1, n
-            call check(abs(res(i) - ans(i)) < max(sptol, 1.0e-11_sp), &
-                       msg="beta_distribution_pdf_csp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < max(sptol, 1.0e-11_sp)),      &
+                   msg="beta_distribution_pdf_csp failed",      &
+                   warn=warn)
     end subroutine test_beta_pdf_csp
 
     subroutine test_beta_pdf_cdp
@@ -347,11 +333,9 @@ contains
         res(1:3) = beta_pdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_pdf(x2, ba, bb, loc), [12])
 
-        do i = 1, n
-            call check(abs(res(i) - ans(i)) < max(dptol, 1.0e-11_dp), &
-                       msg="beta_distribution_pdf_cdp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < max(dptol, 1.0e-11_dp)),      &
+                   msg="beta_distribution_pdf_cdp failed",      &
+                   warn=warn)
     end subroutine test_beta_pdf_cdp
 
 
@@ -386,11 +370,9 @@ contains
         res(1:3) = beta_cdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_cdf(x2, ba, bb, loc), [12])
 
-        do i = 1, 15
-            call check(abs(res(i) - ans(i)) < max(sptol, 1.0e-11_sp), &
-                       msg="beta_distribution_cdf_rsp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < max(sptol, 1.0e-11_sp)),      &
+                   msg="beta_distribution_cdf_rsp failed",      &
+                   warn=warn)
     end subroutine test_beta_cdf_rsp
 
     subroutine test_beta_cdf_rdp
@@ -424,11 +406,9 @@ contains
         res(1:3) = beta_cdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_cdf(x2, ba, bb, loc), [12])
 
-        do i = 1, 15
-            call check(abs(res(i) - ans(i)) < max(dptol, 1.0e-11_dp), &
-                       msg="beta_distribution_cdf_rdp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < max(dptol, 1.0e-11_dp)),      &
+                   msg="beta_distribution_cdf_rdp failed",      &
+                   warn=warn)
     end subroutine test_beta_cdf_rdp
 
     subroutine test_beta_cdf_csp
@@ -465,11 +445,9 @@ contains
         res(1:3) = beta_cdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_cdf(x2, ba, bb, loc), [12])
 
-        do i = 1, 15
-            call check(abs(res(i) - ans(i)) < max(sptol, 1.0e-11_sp), &
-                       msg="beta_distribution_cdf_csp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < max(sptol, 1.0e-11_sp)),      &
+                   msg="beta_distribution_cdf_csp failed",      &
+                   warn=warn)
     end subroutine test_beta_cdf_csp
 
     subroutine test_beta_cdf_cdp
@@ -506,11 +484,9 @@ contains
         res(1:3) = beta_cdf(x1, ba, bb, loc)
         res(4:15) = reshape(beta_cdf(x2, ba, bb, loc), [12])
 
-        do i = 1, 15
-            call check(abs(res(i) - ans(i)) < max(dptol, 1.0e-11_dp), &
-                       msg="beta_distribution_cdf_cdp failed", &
-                       warn=warn)
-        end do
+        call check(all(abs(res - ans) < max(dptol, 1.0e-11_dp)),      &
+                   msg="beta_distribution_cdf_cdp failed",      &
+                   warn=warn)
     end subroutine test_beta_cdf_cdp
 
 
